@@ -8,9 +8,18 @@ namespace WebApp.BookStore.Controllers
 {
     public class HomeController:Controller
     {
-        public string Index()
+        public ViewResult Index()
         {
-            return "My Web  App is Up and Running";
+            return View();
         }
+        public ViewResult About()
+        {
+            return View();
+        }
+        public ViewResult Contact()
+        {
+            return View();
+        }
+
     }
 }
