@@ -1,4 +1,6 @@
-﻿@using WebApp.BookStore.Models;
+﻿@{ 
+    ViewData["Title"] = "Top Books";
+}
 @model IEnumerable<BookModel>
 
 <h1>All Books</h1>
@@ -16,7 +18,7 @@
                     <p class="card-text">@book.Description</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a href="/Book/GetBooksById/@book.Id" class="btn btn-sm btn-outline-secondary">
+                            <a asp-controller="Book" asp-action="GetBooksById" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary">
                                 View Details
                             </a>
                             <small class="text-muted">@book.Author</small>

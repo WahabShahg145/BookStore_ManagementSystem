@@ -1,37 +1,81 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApp.BookStore.Data;
 using WebApp.BookStore.Models;
 
 namespace WebApp.BookStore.Repository
 {
     public class BookRepository
     {
-        public List<BookModel> GetAllBooks()
+        private readonly BookStoreContext _context = null;
+
+        public BookRepository(BookStoreContext context)
         {
-            return DataSource();
+            _context = context;
         }
-        public BookModel GetBookById(int id)
+
+        public async Task<int> AddNewBook(BookModel model)
         {
-            return DataSource().Where(x => x.Id == id).FirstOrDefault();
+            var newBook = new Books()
+            {
+                Author = model.Author,
+                Title= model.Title,
+                CreatedOn = DateTime.UtcNow,
+                LanguageId=model.LanguageId,
+                Pages =model.Pages.HasValue ? model.Pages.Value:0,
+                Description=model.Description,
+                UpdatedOn=DateTime.UtcNow
+            };
+          await _context.Books.AddAsync(newBook);
+          await _context.SaveChangesAsync();
+
+            return newBook.Id;
+        }
+        public async Task<List<BookModel>> GetAllBooks()
+        {
+            return await _context.Books
+                 .Select(book => new BookModel()
+                 {
+                     Author = book.Author,
+                     Category = book.Category,
+                     Description = book.Description,
+                     Id = book.Id,
+                     LanguageId = book.LanguageId,
+                     Language = book.Language.Name,
+                     Title = book.Title,
+                     Pages = book.Pages,
+                     
+                 }).ToListAsync();
+
+        }
+        public async Task<BookModel> GetBookById(int id)
+        {
+            return await _context.Books.Where(x => x.Id == id)
+                .Select(book => new BookModel()
+                {
+                    Author = book.Author,
+                    Title = book.Title,
+                    Category = book.Category,
+                    Description = book.Description,
+                    Id = book.Id,
+                    LanguageId = book.LanguageId,
+                    Language = book.Language.Name,
+                    Pages = book.Pages
+
+
+
+
+                }).FirstOrDefaultAsync();
         }
 
         public List<BookModel> SearchBook(string title, string authorName)
         {
-            return DataSource().Where(x => x.Title.Contains( title) || x.Author.Contains( authorName)).ToList();
+            return null;
         }
 
-        private List<BookModel> DataSource()
-        {
-            return new List<BookModel>()
-            {
-                new BookModel(){Id=1,Title="C#",Author="Wahab",Description="Books description",Category="Action",Pages=12,Language="English" },
-                new BookModel() { Id = 2, Title = "Java", Author = "Wahab",Description="Books description",Category="Strategy",Pages=15,Language="English" },
-                new BookModel(){Id=3,Title="C++",Author="Wahab",Description="Books description",Category="Film",Pages=120,Language="English" },
-                new BookModel(){Id=4,Title=".Net",Author="Wahab",Description="Books description",Category="Drama",Pages=1212,Language="English" },
-                new BookModel(){Id=5,Title="Core",Author="Wahab",Description="Books description",Category="Action",Pages=111,Language="English" }
-            };
-        }
+        
     }
 }

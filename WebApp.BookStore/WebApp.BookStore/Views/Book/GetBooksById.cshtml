@@ -1,11 +1,13 @@
-﻿@using WebApp.BookStore.Models;
+﻿@{
+    ViewData["Title"] = "Search Results";
+}
 @model BookModel
 
 <div class="container">
     <div class="row">
         <h3 class="display-4">Book Details</h3>
         <div class="col-md-6">
-            
+
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -67,7 +69,7 @@
                 <li class="list-group-item"><span class="fw-bold">@Model.Category -</span>Category </li>
                 <li class="list-group-item"><span class="fw-bold">@Model.Pages -</span>Pages</li>
                 <li class="list-group-item"><span class="fw-bold">@Model.Language -</span>Language</li>
-               
+
             </ul>
         </div>
     </div>
