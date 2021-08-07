@@ -24,5 +24,7 @@ namespace WebApp.BookStore.Data
 
         public Language Language { get; set; }
 
+        public string CoverImageUrl { get; set; }
+
     }
 }

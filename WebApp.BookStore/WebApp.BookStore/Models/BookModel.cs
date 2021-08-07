@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using WebApp.BookStore.Enums;
 using WebApp.BookStore.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApp.BookStore.Models
 {
@@ -29,9 +30,10 @@ namespace WebApp.BookStore.Models
 
         [StringLength(300,MinimumLength =20,ErrorMessage ="Enter required length of description")]
         public string Description { get; set; }
+        [Display(Name ="Upload CoverPhoto")]
+        [Required(ErrorMessage = "Please Choose your Language")]
+        public IFormFile CoverPhoto { get; set; }
 
-
-       
-
+        public string CoverImageUrl { get; set; }
     }
 }
